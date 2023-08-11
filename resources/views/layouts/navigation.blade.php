@@ -5,14 +5,11 @@
     <div class="flex justify-between w-1/5">
         <a href="/" class="no-underline hover:underline">Home</a>
         <a href="/blog" class="no-underline hover:underline">Blog</a>
-        @guest
-        <a href="/login" class="no-underline hover:underline">Login</a>
-        @if (Route::has('register'))
-        <a href="/register" class="no-underline hover:underline">Register</a>
-        @endif
-        @else
+        @auth
         <span class="text-3xl">{{Auth::user()->name}}</span>
         <a href="/logout" class="no-underline hover:underline">Logout</a>
-        @endguest
+        @endauth
+        <a href="/login" class="no-underline hover:underline">Login</a>
+        <a href="/register" class="no-underline hover:underline">Register</a>
     </div>
 </nav>

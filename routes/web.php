@@ -21,7 +21,7 @@ Route::get('/', [PagesController::class, 'index']);
 Route::resource('/blog', PostController::class);
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

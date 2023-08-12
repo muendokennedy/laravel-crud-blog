@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -31,22 +32,47 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'required | mimes:png,jpg,jpeg'
+        ]);
+
+        $newImageName = uniqid() . '-'. $request->title . '.' . $request->image->extension();
+
+        // Move the image to the public folder
+
+        $request->image->move(public_path('images'), $newImageName);
+
+        Post::create([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'slug' => Str::slug($request->title),
+            'image_path' => $newImageName,
+            'user_id' => auth()->user()->id
+        ]);
+
+        return redirect('/blog')->with('message', 'The post has been created successfully');
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        //
+        //Show a single blog post
+        return view('blog.show',['post' => Post::where('slug', $slug)->first()]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $slug)
     {
         //
+        return view('blog.edit', ['post' => Post::where('slug', $slug)->first()]);
+
     }
 
     /**

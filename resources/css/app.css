@@ -4,8 +4,6 @@
 @tailwind utilities;
 *{
     font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
 }
 .background-image{
     background-image: url('laptop-dark.jpg');

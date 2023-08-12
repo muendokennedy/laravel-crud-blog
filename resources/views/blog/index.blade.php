@@ -33,6 +33,19 @@
         <a href="/blog/{{$post->slug}}" class="uppercase bg-blue-500 text-gray-100 text-xl font-extrabold py-4 px-6 rounded-3xl">
             Keep Reading
         </a>
+        @if (Auth::user() && Auth::user()->id == $post->user_id)
+        <span class="float-right">
+            <a href="/blog/{{$post->slug}}/edit" class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">Edit</a>
+        </span>
+
+        <span class="float-right">
+            <form action="/blog/{{$post->slug}}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="text-red-500 pr-3">Delete</button>
+            </form>
+        </span>
+        @endif
     </div>
 </div>
 @endforeach

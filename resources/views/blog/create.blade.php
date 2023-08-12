@@ -2,7 +2,7 @@
 @section('content')
 <div class="w-4/5 m-auto text-left">
     <div class="mt-14 py-14">
-        <h1 class="text-5xl">Create a blog post</h1>
+        <h1 class="text-5xl text-center border-b-2 pb-6 capitalize">Create a blog post</h1>
     </div>
 </div>
 <div class="w-4/5 m-auto pt-20">

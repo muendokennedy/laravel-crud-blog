@@ -78,16 +78,33 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $slug)
     {
         //
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
+        Post::where('slug', $slug)->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'slug' => Str::slug($request->title),
+            'user_id' => auth()->user()->id
+        ]);
+
+        return redirect('/blog')->with('message', 'The post has been updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $slug)
     {
-        //
+        // Deleting a particular post
+        $post = Post::where('slug', $slug);
+        $post->delete();
+
+        return redirect('/blog')->with('message', 'The post has been deleted successfully');
     }
 }
